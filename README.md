@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # major_project
 
 A new Flutter project.
@@ -14,3 +15,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# hydrogrow_app
+Major Project - HydroGrow
+>>>>>>> d329219f52884f201e6e38e39057538c07c647f9
