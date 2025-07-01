@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:major_project/login.dart';
 
 Widget myRoundedBox({required IconData icon, required String label}) {
   return Container(
@@ -32,7 +33,9 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+        title: Text("Dash"), 
+      ),
       backgroundColor: const Color(0xFFF5F6FA),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -100,7 +103,12 @@ class Dashboard extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+            );
+                    },
                     child: Text("View Details"),
                   ),
                 ],

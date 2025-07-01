@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:major_project/alerts.dart';
 import 'package:major_project/dashboard.dart';
 import 'package:major_project/lights.dart';
+import 'package:major_project/login.dart';
 import 'package:major_project/settings.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         
         
       ),
-      home: RootPage(),
+      home: Login(),
     );
   }
 }
@@ -35,14 +36,15 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  int currentPage = 0;
+  int currentPage = 4;
 
   //pages
   final List<Widget> _pages=[
     const Dashboard(),
-     const LightsPage(),
+    const LightsPage(),
     const AlertsPage(),  
     const SettingsPage(),  
+    const Login(),  
   ];
 
   final List<String> _titles = [
@@ -50,6 +52,7 @@ class _RootPageState extends State<RootPage> {
   'Lights',     // for index 1
   'Alerts',     // for index 2
   'Settings',   // for index 3
+  'Login',   // for index 3
 ];
 
   @override
