@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'signup.dart'; // ✅ Add this line
+import 'signup.dart'; 
+import 'dashboard.dart'; 
+
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -72,7 +74,10 @@ class Login extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigate to Dashboard
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Dashboard()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
@@ -84,6 +89,7 @@ class Login extends StatelessWidget {
                       child: const Text("Login", style: TextStyle(fontSize: 16)),
                     ),
                   ),
+
 
                   const SizedBox(height: 24),
 

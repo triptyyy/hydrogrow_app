@@ -28,7 +28,7 @@ Widget build(BuildContext context) {
              child: Text(
               'Control mode',
               style: TextStyle(
-              color: Colors.black, // text color black
+              color: Colors.black,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),),
@@ -38,7 +38,7 @@ Widget build(BuildContext context) {
               
              )
           ),
-          SizedBox(height: 16), // spacing between containers
+          SizedBox(height: 16), 
           Container(
             width: double.infinity,
             height: 100,
