@@ -3,6 +3,7 @@ import 'package:major_project/alerts.dart';
 import 'package:major_project/lights.dart';
 import 'package:major_project/settings.dart';
 import 'package:major_project/login.dart';
+import 'package:major_project/threshold.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -13,25 +14,77 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int currentPage = 0;
+  bool showThresholdFromAlerts = false;
 
-  final List<Widget> _pages = [
-    const DashboardContent(),
-    const LightsPage(),
-    const AlertsPage(),
-    const SettingsPage(),
-  ];
+  late final List<Widget> _pages;
 
   final List<String> _titles = [
     'Dashboard',
     'Lights',
     'Alerts',
     'Settings',
+    'Thresholds',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      const DashboardContent(),
+      const LightsPage(),
+      // placeholder, actual content controlled dynamically
+      const SizedBox.shrink(),
+      const SettingsPage(),
+      const ThresholdPage(),
+    ];
+  }
+
+  Widget getPageForCurrentIndex() {
+    if (currentPage == 2) {
+      if (showThresholdFromAlerts) {
+        return const ThresholdPage();
+      } else {
+        return AlertsPage(
+          onNavigateToThreshold: () {
+            setState(() {
+              showThresholdFromAlerts = true;
+              currentPage = 2;
+            });
+          },
+        );
+      }
+    } else {
+      showThresholdFromAlerts = false;
+      return _pages[currentPage];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_titles[currentPage])),
+      appBar: AppBar(
+        leading: (currentPage == 2 && showThresholdFromAlerts)
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  setState(() {
+                    showThresholdFromAlerts = false;
+                  });
+                },
+              )
+            : Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+              ),
+        title: Text(
+          (currentPage == 2 && showThresholdFromAlerts)
+              ? 'Thresholds'
+              : _titles[currentPage],
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -40,19 +93,44 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               title: const Text('Dashboard'),
-              onTap: () => setState(() => currentPage = 0),
+              onTap: () {
+                setState(() {
+                  currentPage = 0;
+                  showThresholdFromAlerts = false;
+                });
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: const Text('Lights'),
-              onTap: () => setState(() => currentPage = 1),
+              onTap: () {
+                setState(() {
+                  currentPage = 1;
+                  showThresholdFromAlerts = false;
+                });
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: const Text('Alerts'),
-              onTap: () => setState(() => currentPage = 2),
+              trailing: const Icon(Icons.notifications_none),
+              onTap: () {
+                setState(() {
+                  currentPage = 2;
+                  showThresholdFromAlerts = false;
+                });
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: const Text('Settings'),
-              onTap: () => setState(() => currentPage = 3),
+              onTap: () {
+                setState(() {
+                  currentPage = 3;
+                  showThresholdFromAlerts = false;
+                });
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: const Text('Logout'),
@@ -63,15 +141,26 @@ class _DashboardState extends State<Dashboard> {
                 );
               },
             ),
+            ListTile(
+              title: const Text('Configure Thresholds'),
+              onTap: () {
+                setState(() {
+                  currentPage = 4;
+                  showThresholdFromAlerts = false;
+                });
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
-      body: _pages[currentPage],
+      body: getPageForCurrentIndex(),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentPage,
         onDestinationSelected: (int index) {
           setState(() {
             currentPage = index;
+            showThresholdFromAlerts = false;
           });
         },
         destinations: const [
@@ -180,7 +269,6 @@ class DashboardContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 12),
-                    
                   ],
                 ),
               ),
