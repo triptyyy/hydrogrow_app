@@ -1,24 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LightsPage extends StatefulWidget {
   const LightsPage({super.key});
 
   @override
+  
   State<LightsPage> createState() => _LightsPageState();
 }
 
 class _LightsPageState extends State<LightsPage> {
-  bool isManual = true;
 
-  double redIntensity = 70;
-  double greenIntensity = 50;
-  double blueIntensity = 30;
+  bool isManual=true;
+  double redIntensity=70;
+  double greenIntensity=50;
+  double blueIntensity=30;
+  bool isLoading=true;
+
+  @override
+  void initState()
+  {
+    super.initState();
+    loadValues();
+  }
+
+  Future<void> loadValues() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+
+    
+    double red = prefs.getDouble('redIntensity') ?? 70;
+    double green = prefs.getDouble('greenIntensity') ?? 50;
+    double blue = prefs.getDouble('blueIntensity') ?? 30;
+    bool manual = prefs.getBool('isManual') ?? true;
+
+    setState(() {
+      redIntensity = red;
+      greenIntensity = green;
+      blueIntensity = blue;
+      isManual = manual;
+      isLoading = false;
+    });
+  } catch (e) {
+    print('Error loading preferences: $e');
+    
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
+
+Future<void> saveDouble(String key, double value) async{
+  final prefs =await SharedPreferences.getInstance();
+  await prefs.setDouble(key,value);
+}
+
+Future<void> saveBool(String key, bool value) async{
+  final prefs =await SharedPreferences.getInstance();
+  await prefs.setBool(key,value);
+}
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+
+    if (isLoading)
+    {
+      return const Center(child:CircularProgressIndicator());
+    }
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Scrollbar(
+        thumbVisibility: true,
         child: ListView(
           children: [
             // Control Mode
@@ -59,6 +114,7 @@ class _LightsPageState extends State<LightsPage> {
                               setState(() {
                                 isManual = val;
                               });
+                              saveBool('isManual',val);
                             },
                           ),
                         ],
@@ -98,7 +154,7 @@ class _LightsPageState extends State<LightsPage> {
                       const Text('Red Intensity'),
                       Text(
                         '${redIntensity.toInt()}%',
-                        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -106,11 +162,12 @@ class _LightsPageState extends State<LightsPage> {
                     value: redIntensity,
                     min: 0,
                     max: 100,
-                    activeColor: Colors.red,
+                    activeColor: Colors.green,
                     onChanged: (value) {
                       setState(() {
                         redIntensity = value;
                       });
+                      // saveDouble('redIntensity',value);
                     },
                   ),
 
@@ -134,6 +191,7 @@ class _LightsPageState extends State<LightsPage> {
                       setState(() {
                         greenIntensity = value;
                       });
+                      // saveDouble('greenIntensity',value);
                     },
                   ),
 
@@ -144,7 +202,7 @@ class _LightsPageState extends State<LightsPage> {
                       const Text('Blue Intensity'),
                       Text(
                         '${blueIntensity.toInt()}%',
-                        style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -152,11 +210,13 @@ class _LightsPageState extends State<LightsPage> {
                     value: blueIntensity,
                     min: 0,
                     max: 100,
-                    activeColor: Colors.blue,
+                    activeColor: Colors.green,
                     onChanged: (value) {
                       setState(() {
                         blueIntensity = value;
                       });
+                      // saveDouble('blueIntensity',value);
+
                     },
                   ),
                 ],
@@ -187,9 +247,9 @@ class _LightsPageState extends State<LightsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _presetButton(Icons.wb_sunny_outlined, "Daylight"),
-                      _presetButton(Icons.eco_outlined, "Growth Mode"),
-                      _presetButton(Icons.nightlight_outlined, "Night Mode"),
+                      _presetButton(Icons.wb_sunny_outlined, "Daylight", color: const Color.fromARGB(255, 243, 221, 32)),
+                      _presetButton(Icons.eco_outlined, "Growth Mode", color: Colors.green),
+                      _presetButton(Icons.nightlight_outlined, "Night Mode", color: const Color.fromARGB(255, 76, 94, 175)),
                     ],
                   ),
                 ],
@@ -201,7 +261,7 @@ class _LightsPageState extends State<LightsPage> {
     );
   }
 
-  Widget _presetButton(IconData icon, String label) {
+  Widget _presetButton(IconData icon, String label, {Color color = Colors.green}) {
     return Column(
       children: [
         Container(
@@ -210,7 +270,7 @@ class _LightsPageState extends State<LightsPage> {
             border: Border.all(color: Colors.grey.shade300),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, size: 28, color: Colors.green),
+          child: Icon(icon, size: 28, color: color),
         ),
         const SizedBox(height: 8),
         Text(label, style: const TextStyle(fontSize: 12)),
@@ -218,3 +278,4 @@ class _LightsPageState extends State<LightsPage> {
     );
   }
 }
+

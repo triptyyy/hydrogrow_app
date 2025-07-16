@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; 
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const SignUpPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
+import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  final bool isDarkMode;
+  final void Function(bool) onThemeChanged;
+
+  const SignUpPage({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeChanged,
+  });
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -40,16 +33,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 Row(
                   children: [
                     IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
-                    },
-                  ),
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(
+                              isDarkMode: widget.isDarkMode,
+                              onThemeChanged: widget.onThemeChanged,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(width: 16),
-                    const Text("Sign Up", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text(
+                      "Sign Up",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -58,17 +59,21 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Center(
                   child: Column(
                     children: [
-                      Text("Join HydroGrow", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                      Text(
+                        "Join HydroGrow",
+                        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: 8),
-                      Text("Start cultivating your smart garden today.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey)),
+                      Text(
+                        "Start cultivating your smart garden today.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 32),
 
-                // Full Name
                 const Text("Full Name"),
                 const SizedBox(height: 8),
                 TextField(
@@ -80,7 +85,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Email Address
                 const Text("Email Address"),
                 const SizedBox(height: 8),
                 TextField(
@@ -93,7 +97,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Password
                 const Text("Password"),
                 const SizedBox(height: 8),
                 TextField(
@@ -110,7 +113,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Confirm Password
                 const Text("Confirm Password"),
                 const SizedBox(height: 8),
                 TextField(
@@ -122,7 +124,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Checkbox
                 Row(
                   children: [
                     Checkbox(
@@ -147,7 +148,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Sign Up Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -157,14 +157,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
-                      // Handle sign-up logic
+                      // Sign-up logic here
                     },
                     child: const Text("Sign Up", style: TextStyle(fontSize: 16)),
                   ),
                 ),
                 const SizedBox(height: 20),
 
-                // Already have an account?
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +173,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Login()),
+                            MaterialPageRoute(
+                              builder: (context) => Login(
+                                isDarkMode: widget.isDarkMode,
+                                onThemeChanged: widget.onThemeChanged,
+                              ),
+                            ),
                           );
                         },
                         child: const Text("Login", style: TextStyle(color: Colors.green)),

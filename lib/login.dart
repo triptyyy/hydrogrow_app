@@ -4,8 +4,16 @@ import 'dashboard.dart';
 
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  final bool isDarkMode;
+  final void Function(bool) onThemeChanged;
 
+  const Login({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeChanged,
+    });
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +84,10 @@ class Login extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Dashboard()),
+                          MaterialPageRoute(builder: (context) =>  Dashboard(
+                            isDarkMode: isDarkMode,
+                            onThemeChanged: onThemeChanged,
+                          )),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -105,6 +116,13 @@ class Login extends StatelessWidget {
                     ],
                   ),
 
+                  SwitchListTile(
+                      title: const Text("Dark Mode"),
+                      value: isDarkMode,
+                      onChanged: onThemeChanged,
+                    ),
+
+
                   const SizedBox(height: 24),
 
                   // Sign Up Navigation
@@ -116,7 +134,11 @@ class Login extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignUpPage()),
+                            MaterialPageRoute(builder: (context) =>  SignUpPage(
+                              isDarkMode: isDarkMode,
+                              onThemeChanged: onThemeChanged,
+
+                            )),
                           );
                         },
                         child: const Text("Sign Up", style: TextStyle(color: Colors.green)),

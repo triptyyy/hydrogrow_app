@@ -4,9 +4,18 @@ import 'package:major_project/lights.dart';
 import 'package:major_project/settings.dart';
 import 'package:major_project/login.dart';
 import 'package:major_project/threshold.dart';
+import 'package:major_project/profile.dart';
+import 'help_and_Support.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final bool isDarkMode;
+  final void Function(bool) onThemeChanged;
+
+  const Dashboard({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeChanged,
+  });
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -15,6 +24,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int currentPage = 0;
   bool showThresholdFromAlerts = false;
+  bool showProfileFromSettings = false;
+  bool showHelpFromSettings = false;  // <-- Added flag for Help
 
   late final List<Widget> _pages;
 
@@ -23,7 +34,9 @@ class _DashboardState extends State<Dashboard> {
     'Lights',
     'Alerts',
     'Settings',
-    'Thresholds',
+    'Configure Thresholds',
+    'Profile',
+    'Help and Support',
   ];
 
   @override
@@ -33,10 +46,14 @@ class _DashboardState extends State<Dashboard> {
     _pages = [
       const DashboardContent(),
       const LightsPage(),
-      // placeholder, actual content controlled dynamically
       const SizedBox.shrink(),
-      const SettingsPage(),
+      SettingsPage(
+        onNavigateToProfile: () {},
+        onNavigateToHelp: () {},
+      ),
       const ThresholdPage(),
+      const ProfilePage(),
+      HelpSupportScreen(),
     ];
   }
 
@@ -54,8 +71,33 @@ class _DashboardState extends State<Dashboard> {
           },
         );
       }
+    } else if (currentPage == 3) {
+      if (showProfileFromSettings) {
+        return const ProfilePage();
+      } else if (showHelpFromSettings) {
+        return HelpSupportScreen();
+      } else {
+        return SettingsPage(
+          onNavigateToProfile: () {
+            setState(() {
+              currentPage = 5;
+              showProfileFromSettings = true;
+              showHelpFromSettings = false;
+            });
+          },
+          onNavigateToHelp: () {
+            setState(() {
+              currentPage = 6;
+              showHelpFromSettings = true;
+              showProfileFromSettings = false;
+            });
+          },
+        );
+      }
     } else {
-      showThresholdFromAlerts = false;
+      if (currentPage != 2) showThresholdFromAlerts = false;
+      if (currentPage != 3 && currentPage != 5) showProfileFromSettings = false;
+      if (currentPage != 3 && currentPage != 6) showHelpFromSettings = false;
       return _pages[currentPage];
     }
   }
@@ -64,12 +106,22 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: (currentPage == 2 && showThresholdFromAlerts)
+        leading: (currentPage == 2 && showThresholdFromAlerts) ||
+                (currentPage == 5 && showProfileFromSettings) ||
+                (currentPage == 6 && showHelpFromSettings)  // Added Help condition
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   setState(() {
-                    showThresholdFromAlerts = false;
+                    if (currentPage == 2 && showThresholdFromAlerts) {
+                      showThresholdFromAlerts = false;
+                    } else if (currentPage == 5 && showProfileFromSettings) {
+                      currentPage = 3;
+                      showProfileFromSettings = false;
+                    } else if (currentPage == 6 && showHelpFromSettings) {
+                      currentPage = 3;
+                      showHelpFromSettings = false;
+                    }
                   });
                 },
               )
@@ -82,7 +134,11 @@ class _DashboardState extends State<Dashboard> {
         title: Text(
           (currentPage == 2 && showThresholdFromAlerts)
               ? 'Thresholds'
-              : _titles[currentPage],
+              : (currentPage == 5 && showProfileFromSettings)
+                  ? 'Profile'
+                  : (currentPage == 6 && showHelpFromSettings)
+                      ? 'Help and Support'
+                      : _titles[currentPage],
         ),
       ),
       drawer: Drawer(
@@ -137,7 +193,12 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Login()),
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                      isDarkMode: widget.isDarkMode,
+                      onThemeChanged: widget.onThemeChanged,
+                    ),
+                  ),
                 );
               },
             ),
@@ -151,25 +212,59 @@ class _DashboardState extends State<Dashboard> {
                 Navigator.pop(context);
               },
             ),
+            SwitchListTile(
+              title: const Text("Dark Mode"),
+              value: widget.isDarkMode,
+              onChanged: widget.onThemeChanged,
+            ),
+            ListTile(
+              title: const Text('My profile'),
+              onTap: () {
+                setState(() {
+                  currentPage = 5;
+                  showProfileFromSettings = false;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Help and Support'),
+              onTap: () {
+                setState(() {
+                  currentPage = 6;
+                  showThresholdFromAlerts = false;
+                  showProfileFromSettings = false;
+                  showHelpFromSettings = false; // Since this is direct from drawer
+                });
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
       body: getPageForCurrentIndex(),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentPage,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPage = index;
-            showThresholdFromAlerts = false;
-          });
-        },
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.dashboard), label: 'Dashboard'),
-          NavigationDestination(icon: Icon(Icons.light_mode), label: 'Lights'),
-          NavigationDestination(icon: Icon(Icons.notifications_none), label: 'Alerts'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
+      bottomNavigationBar: (currentPage <= 4 ||
+              (currentPage == 5 && showProfileFromSettings))
+          ? NavigationBar(
+              selectedIndex: currentPage > 3 ? 3 : currentPage,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  currentPage = index;
+                  showThresholdFromAlerts = false;
+                  showProfileFromSettings = false;
+                  showHelpFromSettings = false;
+                });
+              },
+              destinations: const [
+                NavigationDestination(
+                    icon: Icon(Icons.dashboard), label: 'Dashboard'),
+                NavigationDestination(icon: Icon(Icons.light_mode), label: 'Lights'),
+                NavigationDestination(
+                    icon: Icon(Icons.notifications_none), label: 'Alerts'),
+                NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+              ],
+            )
+          : null,
     );
   }
 }
@@ -221,10 +316,17 @@ class DashboardContent extends StatelessWidget {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                   children: [
-                    myRoundedBox(icon: Icons.water_drop_outlined, label: "Soil Moisture"),
-                    myRoundedBox(icon: Icons.thermostat_outlined, label: "Air Temperature"),
-                    myRoundedBox(icon: Icons.air_outlined, label: "Air Humidity"),
-                    myRoundedBox(icon: Icons.light_mode_outlined, label: "Ambient Light Intensity"),
+                    myRoundedBox(
+                        icon: Icons.water_drop_outlined,
+                        label: "Soil Moisture"),
+                    myRoundedBox(
+                        icon: Icons.thermostat_outlined,
+                        label: "Air Temperature"),
+                    myRoundedBox(
+                        icon: Icons.air_outlined, label: "Air Humidity"),
+                    myRoundedBox(
+                        icon: Icons.light_mode_outlined,
+                        label: "Ambient Light Intensity"),
                   ],
                 ),
               ),
