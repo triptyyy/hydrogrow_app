@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "578868358906",
+    "project_id": "hydrogrowyt",
+    "storage_bucket": "hydrogrowyt.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578868358906:android:b780a75a6420e10caf6343",
+        "android_client_info": {
+          "package_name": "com.example.major_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiWRhBzmbjDhMeDM7fPilQzSBoPKoKjrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
