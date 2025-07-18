@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
-  final bool isDarkMode;
-  final void Function(bool) onThemeChanged;
-
   const SignUpPage({
     super.key,
-    required this.isDarkMode,
-    required this.onThemeChanged,
   });
 
   @override
@@ -38,10 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(
-                              isDarkMode: widget.isDarkMode,
-                              onThemeChanged: widget.onThemeChanged,
-                            ),
+                            builder: (context) => Login(),
                           ),
                         );
                       },
@@ -49,7 +41,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(width: 16),
                     const Text(
                       "Sign Up",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -61,7 +54,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Text(
                         "Join HydroGrow",
-                        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
                       Text(
@@ -78,9 +72,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 8),
                 TextField(
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person_outline, color: Colors.green),
+                    prefixIcon:
+                        const Icon(Icons.person_outline, color: Colors.green),
                     hintText: "Enter your full name",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -90,9 +86,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email_outlined, color: Colors.green),
+                    prefixIcon:
+                        const Icon(Icons.email_outlined, color: Colors.green),
                     hintText: "@example.com",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -102,13 +100,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 TextField(
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock_outline, color: Colors.green),
+                    prefixIcon:
+                        const Icon(Icons.lock_outline, color: Colors.green),
                     hintText: "Minimum 8 characters",
                     suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
-                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -119,7 +122,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "Re-enter your password",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -137,7 +141,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             TextSpan(
                               text: "Terms & Conditions",
-                              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                             TextSpan(text: "."),
                           ],
@@ -153,13 +159,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
                       // Sign-up logic here
                     },
-                    child: const Text("Sign Up", style: TextStyle(fontSize: 16)),
+                    child:
+                        const Text("Sign Up", style: TextStyle(fontSize: 16)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -174,14 +182,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Login(
-                                isDarkMode: widget.isDarkMode,
-                                onThemeChanged: widget.onThemeChanged,
-                              ),
+                              builder: (context) => Login(),
                             ),
                           );
                         },
-                        child: const Text("Login", style: TextStyle(color: Colors.green)),
+                        child: const Text("Login",
+                            style: TextStyle(color: Colors.green)),
                       ),
                     ],
                   ),

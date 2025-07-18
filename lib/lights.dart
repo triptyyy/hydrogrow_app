@@ -1,74 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LightsPage extends StatefulWidget {
   const LightsPage({super.key});
 
   @override
-  
   State<LightsPage> createState() => _LightsPageState();
 }
 
 class _LightsPageState extends State<LightsPage> {
-
-  bool isManual=true;
-  double redIntensity=70;
-  double greenIntensity=50;
-  double blueIntensity=30;
-  bool isLoading=true;
+  bool isManual = true;
+  double redIntensity = 70;
+  double greenIntensity = 50;
+  double blueIntensity = 30;
+  bool isLoading = true;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     loadValues();
   }
 
   Future<void> loadValues() async {
-  try {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    
-    double red = prefs.getDouble('redIntensity') ?? 70;
-    double green = prefs.getDouble('greenIntensity') ?? 50;
-    double blue = prefs.getDouble('blueIntensity') ?? 30;
-    bool manual = prefs.getBool('isManual') ?? true;
+      double red = prefs.getDouble('redIntensity') ?? 70;
+      double green = prefs.getDouble('greenIntensity') ?? 50;
+      double blue = prefs.getDouble('blueIntensity') ?? 30;
+      bool manual = prefs.getBool('isManual') ?? true;
 
-    setState(() {
-      redIntensity = red;
-      greenIntensity = green;
-      blueIntensity = blue;
-      isManual = manual;
-      isLoading = false;
-    });
-  } catch (e) {
-    print('Error loading preferences: $e');
-    
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        redIntensity = red;
+        greenIntensity = green;
+        blueIntensity = blue;
+        isManual = manual;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading preferences: $e');
+
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
-}
 
-Future<void> saveDouble(String key, double value) async{
-  final prefs =await SharedPreferences.getInstance();
-  await prefs.setDouble(key,value);
-}
+  Future<void> saveDouble(String key, double value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(key, value);
+  }
 
-Future<void> saveBool(String key, bool value) async{
-  final prefs =await SharedPreferences.getInstance();
-  await prefs.setBool(key,value);
-}
-
-
+  Future<void> saveBool(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    if (isLoading)
-    {
-      return const Center(child:CircularProgressIndicator());
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
     }
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -114,7 +105,7 @@ Future<void> saveBool(String key, bool value) async{
                               setState(() {
                                 isManual = val;
                               });
-                              saveBool('isManual',val);
+                              saveBool('isManual', val);
                             },
                           ),
                         ],
@@ -154,7 +145,8 @@ Future<void> saveBool(String key, bool value) async{
                       const Text('Red Intensity'),
                       Text(
                         '${redIntensity.toInt()}%',
-                        style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -178,7 +170,8 @@ Future<void> saveBool(String key, bool value) async{
                       const Text('Green Intensity'),
                       Text(
                         '${greenIntensity.toInt()}%',
-                        style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -202,7 +195,8 @@ Future<void> saveBool(String key, bool value) async{
                       const Text('Blue Intensity'),
                       Text(
                         '${blueIntensity.toInt()}%',
-                        style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -216,7 +210,6 @@ Future<void> saveBool(String key, bool value) async{
                         blueIntensity = value;
                       });
                       // saveDouble('blueIntensity',value);
-
                     },
                   ),
                 ],
@@ -247,9 +240,12 @@ Future<void> saveBool(String key, bool value) async{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _presetButton(Icons.wb_sunny_outlined, "Daylight", color: const Color.fromARGB(255, 243, 221, 32)),
-                      _presetButton(Icons.eco_outlined, "Growth Mode", color: Colors.green),
-                      _presetButton(Icons.nightlight_outlined, "Night Mode", color: const Color.fromARGB(255, 76, 94, 175)),
+                      _presetButton(Icons.wb_sunny_outlined, "Daylight",
+                          color: const Color.fromARGB(255, 243, 221, 32)),
+                      _presetButton(Icons.eco_outlined, "Growth Mode",
+                          color: Colors.green),
+                      _presetButton(Icons.nightlight_outlined, "Night Mode",
+                          color: const Color.fromARGB(255, 76, 94, 175)),
                     ],
                   ),
                 ],
@@ -261,7 +257,8 @@ Future<void> saveBool(String key, bool value) async{
     );
   }
 
-  Widget _presetButton(IconData icon, String label, {Color color = Colors.green}) {
+  Widget _presetButton(IconData icon, String label,
+      {Color color = Colors.green}) {
     return Column(
       children: [
         Container(
@@ -278,4 +275,3 @@ Future<void> saveBool(String key, bool value) async{
     );
   }
 }
-

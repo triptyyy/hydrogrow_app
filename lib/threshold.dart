@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ThresholdPage extends StatefulWidget {
   const ThresholdPage({super.key});
 
@@ -35,7 +34,8 @@ class _ThresholdPageState extends State<ThresholdPage> {
                       SizedBox(width: 8),
                       Text(
                         "Soil Moisture Threshold",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -81,7 +81,8 @@ class _ThresholdPageState extends State<ThresholdPage> {
                       SizedBox(width: 8),
                       Text(
                         "Air Temperature Threshold",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -138,7 +139,8 @@ class _ThresholdPageState extends State<ThresholdPage> {
                       SizedBox(width: 8),
                       Text(
                         "Air Humidity Threshold",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -195,7 +197,8 @@ class _ThresholdPageState extends State<ThresholdPage> {
                       SizedBox(width: 8),
                       Text(
                         "Ambient Light Intensity",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -216,9 +219,6 @@ class _ThresholdPageState extends State<ThresholdPage> {
                 ],
               ),
             ),
-
-
-            
           ],
         ),
       ),

@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           children: [
-            if (widget.showBackButton) 
+            if (widget.showBackButton)
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
@@ -90,8 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   const Text(
                     "Account Details",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 20),
                   TextField(
@@ -157,8 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   const Text(
                     "App Preferences",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 20),
                   Row(

@@ -18,11 +18,11 @@ class AlertsPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-
             buildNotificationCard(
               icon: Icons.warning_amber_rounded,
               iconColor: Colors.red,
-              message: "Soil moisture critically low, system paused irrigation.",
+              message:
+                  "Soil moisture critically low, system paused irrigation.",
               time: "2 minutes ago",
               tag: "Urgent",
               tagColor: Colors.red.shade100,
@@ -40,7 +40,8 @@ class AlertsPage extends StatelessWidget {
             buildNotificationCard(
               icon: Icons.thermostat,
               iconColor: Colors.orange,
-              message: "Ambient temperature exceeding optimal range, activate cooling.",
+              message:
+                  "Ambient temperature exceeding optimal range, activate cooling.",
               time: "1 hour ago",
               tag: "Warning",
               tagColor: Colors.orange.shade50,
@@ -64,9 +65,7 @@ class AlertsPage extends StatelessWidget {
               tagColor: Colors.teal.shade50,
               tagTextColor: Colors.teal,
             ),
-
             const SizedBox(height: 24),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -85,7 +84,6 @@ class AlertsPage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 32),
           ],
         ),
@@ -127,11 +125,13 @@ class AlertsPage extends StatelessWidget {
               Expanded(
                 child: Text(
                   message,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: tagColor,
                   borderRadius: BorderRadius.circular(20),

@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'signup.dart'; 
-import 'dashboard.dart'; 
-
+import 'signup.dart';
+import 'dashboard.dart';
 
 class Login extends StatelessWidget {
-  final bool isDarkMode;
-  final void Function(bool) onThemeChanged;
-
   const Login({
     super.key,
-    required this.isDarkMode,
-    required this.onThemeChanged,
-    });
+  });
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +77,7 @@ class Login extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  Dashboard(
-                            isDarkMode: isDarkMode,
-                            onThemeChanged: onThemeChanged,
-                          )),
+                          MaterialPageRoute(builder: (context) => Dashboard()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -97,10 +87,10 @@ class Login extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("Login", style: TextStyle(fontSize: 16)),
+                      child:
+                          const Text("Login", style: TextStyle(fontSize: 16)),
                     ),
                   ),
-
 
                   const SizedBox(height: 24),
 
@@ -116,13 +106,6 @@ class Login extends StatelessWidget {
                     ],
                   ),
 
-                  SwitchListTile(
-                      title: const Text("Dark Mode"),
-                      value: isDarkMode,
-                      onChanged: onThemeChanged,
-                    ),
-
-
                   const SizedBox(height: 24),
 
                   // Sign Up Navigation
@@ -134,14 +117,12 @@ class Login extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  SignUpPage(
-                              isDarkMode: isDarkMode,
-                              onThemeChanged: onThemeChanged,
-
-                            )),
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()),
                           );
                         },
-                        child: const Text("Sign Up", style: TextStyle(color: Colors.green)),
+                        child: const Text("Sign Up",
+                            style: TextStyle(color: Colors.green)),
                       ),
                     ],
                   ),
